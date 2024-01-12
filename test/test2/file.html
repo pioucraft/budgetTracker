@@ -1,0 +1,24 @@
+<script src="https://unpkg.com/peerjs@1.5.2/dist/peerjs.min.js"></script>
+
+
+<script>
+  const peer = new Peer('pioucraft1');
+  
+  peer.on('connection', function(conn) {
+    conn.on('data', function(data) {
+      console.log('Received', data);
+    });
+  });
+  
+  peer.on('open', function(id) {
+    
+    
+      window.sendRTC = (message, remoteID) => {
+        const conn = peer.connect(remoteID);
+        conn.on('open', function() {
+          conn.send(message);
+        });
+      }
+    
+  });
+</script>

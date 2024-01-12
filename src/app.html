@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<link rel="icon" href="%sveltekit.assets%/favicon.png" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<style>
+			:root {
+				--text: #0c1109;
+				--background: #f4f9f1;
+				--primary: #81c84c;
+				--secondary: #b9e895;
+				--accent: #96e859;
+			}
+
+			button:focus, 
+			button:active, 
+			button:hover {
+				outline: none;
+				-webkit-tap-highlight-color: transparent; /* Specifically for WebKit browsers like Chrome */
+			}
+		</style>
+		%sveltekit.head%
+	</head>
+	<body data-sveltekit-preload-data="hover">
+		<div style="display: contents">%sveltekit.body%</div>
+	</body>
+</html>

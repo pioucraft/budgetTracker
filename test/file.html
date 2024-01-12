@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<script>
+// Peer A: Creating an offer and a data channel
+const peerA = new RTCPeerConnection();
+let dataChannelA = peerA.createDataChannel("channel");
+
+dataChannelA.onopen = () => {
+    console.log("Data channel is open on Peer A");
+    dataChannelA.send("Hello from A to B!"); // Send message once channel is open
+};
+
+dataChannelA.onmessage = event => {
+    console.log("Message from Peer B:", event.data);
+};
+
+peerA.onicecandidate = event => {
+    if (event.candidate) {
+        // Send this candidate to Peer B
+    }
+};
+
+peerA.createOffer().then(offer => {
+    peerA.setLocalDescription(offer);
+    // Send this offer to Peer B
+});
+
+// When Peer A receives an answer from Peer B
+// This part will be triggered after Peer B creates an answer
+// peerA.setRemoteDescription(new RTCSessionDescription(answerFromPeerB));
+
+</script>

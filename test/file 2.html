@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<script>
+// Peer B: Creating an answer and handling the data channel
+const peerB = new RTCPeerConnection();
+
+peerB.onicecandidate = event => {
+    if (event.candidate) {
+        // Send this candidate to Peer A
+    }
+};
+
+peerB.ondatachannel = event => {
+    const dataChannelB = event.channel;
+
+    dataChannelB.onopen = () => {
+        console.log("Data channel is open on Peer B");
+    };
+
+    dataChannelB.onmessage = event => {
+        console.log("Message from Peer A:", event.data);
+        // Optionally, send a response back to A
+        // dataChannelB.send("Response from B to A");
+    };
+};
+
+// When Peer B receives an offer from Peer A
+// peerB.setRemoteDescription(new RTCSessionDescription(offerFromPeerA));
+// peerB.createAnswer().then(answer => {
+//     peerB.setLocalDescription(answer);
+//     // Send this answer back to Peer A
+// });
+</script>
