@@ -75,6 +75,7 @@
 
 <style>
     :global(body) {
+        
         font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
         margin: 0;
         height: 100vh;
@@ -259,6 +260,11 @@
     }
 
     @media only screen and (max-width: 100vh) {
+
+        :global(body) {
+            -webkit-user-select: none;
+        }
+
         #wrapper {
             grid-template-columns: 0vw 1fr;
         }
