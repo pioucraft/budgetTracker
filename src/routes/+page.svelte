@@ -263,6 +263,7 @@
 
         :global(body) {
             -webkit-user-select: none;
+            -webkit-touch-callout: none;
         }
 
         #wrapper {
