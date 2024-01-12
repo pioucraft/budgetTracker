@@ -100,7 +100,7 @@
     }
 
     #middleBar {
-        margin-top: 5vh;
+        margin-top: 7vh;
         display: flex;
         flex-direction: column;
         padding: 1vh;
