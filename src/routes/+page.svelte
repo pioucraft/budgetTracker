@@ -266,6 +266,8 @@
 
         #leftBar {
             visibility: hidden;
+            font-size: xx-large;
+            border: none;
         }
 
         #burgerMenuButton {
