@@ -103,7 +103,7 @@
         margin-top: 5vh;
         display: flex;
         flex-direction: column;
-        padding: 6vh;
+        padding-top: 6vh;
         grid-area: middle;
         overflow-y: scroll;
     }
