@@ -1,6 +1,6 @@
 <script>
     import { onMount } from 'svelte'
-    import { Convert }from "easy-currencies";
+    import { Convert } from "easy-currencies";
     var save = {
         "settings": {
             "defaultCurrency": "USD"
@@ -11,6 +11,8 @@
     }
 
     var currentPage = 0
+    var isMenuVisible = false;
+
     
     onMount(() => {
         // @ts-ignore
@@ -42,16 +44,15 @@
     }
 
     function burgerMenu() {
+        isMenuVisible = !isMenuVisible
         // @ts-ignore
-        if(document.getElementById("leftBar").style.visibility == "visible") {
+        if(!isMenuVisible) {
             // @ts-ignore
             document.getElementById("wrapper").style.gridTemplateColumns = "0vw 1fr"
             // @ts-ignore
             document.getElementById("leftBar").style.visibility = "hidden"
             // @ts-ignore
             document.getElementById("middleBar").style.visibility = "visible"
-            // @ts-ignore
-            document.getElementById("middleBar").style.padding = "6vh"
             return;
         }
         // @ts-ignore
@@ -60,8 +61,6 @@
         document.getElementById("leftBar").style.visibility = "visible"
         // @ts-ignore
         document.getElementById("middleBar").style.visibility = "hidden"
-            // @ts-ignore
-            document.getElementById("middleBar").style.padding = "0vh"
     }
 
     // @ts-ignore
