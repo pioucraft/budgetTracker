@@ -1,4 +1,6 @@
 <script>
+// @ts-nocheck
+
     import { onMount } from 'svelte'
     import { Convert } from "easy-currencies";
     var save = {
@@ -6,38 +8,101 @@
             "defaultCurrency": "USD"
         },
         "accounts": {
-
+            "Main account": {
+                "transactions": [
+                    ["Hello potato", 3, "USD", "currency", 10]
+                ]
+            }
         }
     }
-
     var currentPage = 0
     var isMenuVisible = false;
+    var accounts = [
+        [
+            "Main account", 
+            {
+                "transactions": [
+                    ["Hello potato", 3, "USD", "currency", 10]
+                ]
+            }
+        ]
+    ]
 
     
     onMount(() => {
-        // @ts-ignore
+        
         save = JSON.parse(localStorage.getItem("save")) ?? "";
-        converter()
+        if(save) {
+            
+            accounts = Object.entries(save["accounts"])
+        }
+       
+        currenciesList().then(() => generateAccounts())
+        
+        
     })
     
+    var currencyConverter = {"USD": 1}
     var currencyRates = [["USD", 1]]
+
+    async function generateAccounts() {
+        var accountsIndex = 0
+        accounts.forEach(account => {
+            
+            let total = 0
+            let assets = {}
+            
+            account[1]["transactions"].forEach(transaction => {
+                if(transaction[3] == "currency") {
+                    
+                    let converted = transaction[1]/currencyConverter[transaction[2]]*currencyConverter[save["settings"]["defaultCurrency"]]
+                    total += converted
+                    
+                    if(!assets[transaction[2]]) assets[transaction[2]] = [0, 0]
+                    
+                    assets[transaction[2]][0] += transaction[1]
+                    
+                    assets[transaction[2]][1] += converted
+                }
+            })
+            total = Number(total.toFixed(2))
+            assets = Object.entries(assets)
+            
+            assets = assets.sort((a, b) => a[1][1]-b[1][1]).reverse()
+            assets.map(x => {
+                x[1][1] = Number(x[1][1].toFixed(2))
+            })
+            
+            accounts[accountsIndex][1]["total"] = total
+            
+            accounts[accountsIndex][1]["topAssets"] = assets
+            accountsIndex++
+            console.log(assets)
+        })
+        
+    }
     
-    async function converter() {
-        console.log(Object.entries((await Convert().from("USD").fetch()).rates))
-        currencyRates = Object.entries((await Convert().from("USD").fetch()).rates) ?? [["USD", 1]]
-        console.log("currencyRates")
-        console.log(currencyRates)
+    async function currenciesList() {
+        
+        console.log((await Convert().from("USD").fetch()).rates)
+        
+        currencyConverter = ((await Convert().from("USD").fetch()).rates) ?? currencyConverter
+        currencyRates = Object.entries(currencyConverter) ?? currencyRates
     }
 
     function start() {
-        // @ts-ignore
+        
         let currency = document.getElementById("temporary-currencySelector").value
         save = {
             "settings": {
                 "defaultCurrency": currency
             },
             "accounts": {
-
+                "Main account": {
+                    "transactions": [
+                        ["Hello potato", 3, "USD", "currency", 10]
+                    ]
+                }
             }
         }
         localStorage.setItem("save", JSON.stringify(save))
@@ -45,29 +110,29 @@
 
     function burgerMenu() {
         isMenuVisible = !isMenuVisible
-        // @ts-ignore
+        
         if(!isMenuVisible) {
-            // @ts-ignore
+            
             document.getElementById("wrapper").style.gridTemplateColumns = "0vw 1fr"
-            // @ts-ignore
+            
             document.getElementById("leftBar").style.visibility = "hidden"
-            // @ts-ignore
+            
             document.getElementById("middleBar").style.visibility = "visible"
             return;
         }
-        // @ts-ignore
+        
         document.getElementById("wrapper").style.gridTemplateColumns = "1fr 0vw"
-        // @ts-ignore
+        
         document.getElementById("leftBar").style.visibility = "visible"
-        // @ts-ignore
+        
         document.getElementById("middleBar").style.visibility = "hidden"
     }
 
-    // @ts-ignore
+    
     function changePage(nb) {
         currentPage = nb
         
-        // @ts-ignore
+        
         if(document.getElementById("leftBar").style.visibility == "visible") burgerMenu()
         
     }
@@ -100,7 +165,6 @@
     }
 
     #middleBar {
-        margin-top: 7vh;
         display: flex;
         flex-direction: column;
         padding: 1vh;
@@ -199,13 +263,19 @@
         background-color: transparent;
         border: none;
         cursor: pointer;
-        margin-top: 3vh;
-        border-radius: 1vh;
-        padding: 1vh;
+        padding: 3vh;
     }
 
     #home-transaction:hover {
         background-color: azure;
+    }
+
+    #accounts-account {
+        cursor: pointer;
+    }
+
+    #accounts-account:hover {
+        background-color: var(--accent);
     }
 
     /*temporary only*/
@@ -303,6 +373,10 @@
         .box {
             padding: 5%;
         }
+
+        #middleBar {
+            margin-top: 7vh;
+        }
     }
 </style>
 
@@ -333,9 +407,10 @@
             <button on:click={() => changePage(0)} class="leftBar-button">Home</button>
             <button on:click={() => changePage(1)} class="leftBar-button">Accounts</button>
             <button on:click={() => changePage(2)} class="leftBar-button">Budget (coming soon)</button>
-            <button on:click={() => changePage(3)} class="leftBar-button">Stock</button>
-            <button on:click={() => changePage(4)} class="leftBar-button">Crypto</button>
-            <button on:click={() => changePage(5)} class="leftBar-button">Settings</button>
+            <button on:click={() => changePage(3)} class="leftBar-button">Stock (coming soon)</button>
+            <button on:click={() => changePage(4)} class="leftBar-button">Crypto (coming soon)</button>
+            <button on:click={() => changePage(5)} class="leftBar-button">Sync (coming soon)</button>
+            <button on:click={() => changePage(6)} class="leftBar-button">Settings (coming soon)</button>
         </div>
         <div id="middleBar">
             {#if currentPage == 0}
@@ -362,7 +437,14 @@
                 <button id="home-transaction">1BTC => 1CHF | a random description but ok | 30th february 2023 15:13</button>
                 <button id="home-transaction">1BTC => 1CHF | a random description but ok | 30th february 2023 15:13</button>
             {:else if currentPage == 1}
-            <p>1</p>
+                {#each accounts as account}
+                    <div id="accounts-account" class="box">
+                        <h2>{account[0]}</h2>
+                        <h3>{account[1]["total"]} {save["settings"]["defaultCurrency"]}</h3>
+                        <p>Top 3 assets :</p>
+                        <h4>{account[1]["topAssets"][0][1][0]} {account[1]["topAssets"][0][0]} | {account[1]["topAssets"][1][1][0]} {account[1]["topAssets"][1][0]} | {account[1]["topAssets"][2][1][0]} {account[1]["topAssets"][2][0]}</h4>
+                    </div>
+                {/each}
             {/if}
         </div>
     </div>
