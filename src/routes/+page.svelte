@@ -71,6 +71,10 @@
             assets.map(x => {
                 x[1][1] = Number(x[1][1].toFixed(2))
             })
+
+            if(assets.length < 3) {
+                assets.push(["USD", []])
+            }
             
             accounts[accountsIndex][1]["total"] = total
             
