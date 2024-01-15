@@ -16,7 +16,6 @@
         }
     }
     var currentPage = 0
-    var isMenuVisible = false;
     var accounts = [
         [
             "Main account", 
@@ -108,33 +107,9 @@
         localStorage.setItem("save", JSON.stringify(save))
     }
 
-    function burgerMenu() {
-        isMenuVisible = !isMenuVisible
-        
-        if(!isMenuVisible) {
-            
-            document.getElementById("wrapper").style.gridTemplateColumns = "0vw 1fr"
-            
-            document.getElementById("leftBar").style.visibility = "hidden"
-            
-            document.getElementById("middleBar").style.visibility = "visible"
-            return;
-        }
-        
-        document.getElementById("wrapper").style.gridTemplateColumns = "1fr 0vw"
-        
-        document.getElementById("leftBar").style.visibility = "visible"
-        
-        document.getElementById("middleBar").style.visibility = "hidden"
-    }
-
     
     function changePage(nb) {
         currentPage = nb
-        
-        
-        if(document.getElementById("leftBar").style.visibility == "visible") burgerMenu()
-        
     }
 </script>
 
@@ -161,7 +136,7 @@
         padding: 5vh;
         display: flex;
         flex-direction: column;
-        overflow-y: scroll;
+        overflow-x: auto;
     }
 
     #middleBar {
@@ -188,11 +163,6 @@
         background-color: var(--accent);
     }
 
-    #burgerMenuButton {
-        visibility: hidden;
-        position: fixed;
-    }
-
     #home-topBar {
         display: grid;
         grid-template-areas: "left right";
@@ -212,7 +182,7 @@
         "search search";
         grid-template-columns: 5em auto;
         grid-template-rows: 5em auto;
-        gap: 5%;
+        gap: 3%;
         min-height: 15vh;
     }
 
@@ -331,38 +301,29 @@
 
     @media only screen and (max-width: 100vh) {
 
-        :global(body) {
-            -webkit-user-select: none;
-            -webkit-touch-callout: none;
-        }
 
         #wrapper {
             grid-template-columns: 0vw 1fr;
         }
 
         #leftBar {
-            visibility: hidden;
-            font-size: xx-large;
-            border: none;
-        }
-
-        #burgerMenuButton {
-            visibility: visible;
+            overflow: scroll;
             position: fixed;
-            left: 1vh;
-            top: 1vh;
-            background-color: transparent;
-            width: 1.5em;
-            font-size: xx-large;
-            cursor: pointer;
-            border-style: none;
-            border-radius: 5vh;
-            cursor: default;
+            height: 2em;
+            flex-direction: row;
+            padding: 0;
+            border-bottom: solid black;
+            border-right: none;
+            width: 100vw;
         }
 
-        #burgerMenuButton:hover {
-            cursor: pointer;
-            background-color: var(--accent);
+        .leftBar-button {
+            padding: 0.5vh;
+            margin-top: 0;
+        }
+
+        .leftBar-button:hover {
+            background-color: transparent;
         }
 
         #home-topBar {
@@ -371,7 +332,7 @@
         }
 
         #middleBar {
-            margin-top: 7vh;
+            margin-top: 2em;
         }
     }
 </style>
@@ -397,16 +358,18 @@
 
 {:else}
     <div id="wrapper">
-        <button id="burgerMenuButton" on:click={burgerMenu}>☰</button>
         <div id="leftBar">
             
             <button on:click={() => changePage(0)} class="leftBar-button">Home</button>
             <button on:click={() => changePage(1)} class="leftBar-button">Accounts</button>
-            <button on:click={() => changePage(2)} class="leftBar-button">Budget (coming soon)</button>
-            <button on:click={() => changePage(3)} class="leftBar-button">Stock (coming soon)</button>
-            <button on:click={() => changePage(4)} class="leftBar-button">Crypto (coming soon)</button>
-            <button on:click={() => changePage(5)} class="leftBar-button">Sync (coming soon)</button>
-            <button on:click={() => changePage(6)} class="leftBar-button">Settings (coming soon)</button>
+            <button on:click={() => changePage(2)} class="leftBar-button">Budget</button>
+            <button on:click={() => changePage(3)} class="leftBar-button">Stock</button>
+            <button on:click={() => changePage(4)} class="leftBar-button">Crypto</button>
+            <button on:click={() => changePage(5)} class="leftBar-button">Sync</button>
+            <button on:click={() => changePage(6)} class="leftBar-button">Settings</button>
+            <button on:click={() => changePage(6)} class="leftBar-button">Settings</button>
+            <button on:click={() => changePage(6)} class="leftBar-button">Settings</button>
+            <button on:click={() => changePage(6)} class="leftBar-button">Settings</button>
         </div>
         <div id="middleBar">
             {#if currentPage == 0}
