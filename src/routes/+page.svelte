@@ -74,6 +74,8 @@
 
             if(assets.length < 3) {
                 assets.push(["USD", []])
+                assets.push(["USD", []])
+                assets.push(["USD", []])
             }
             
             accounts[accountsIndex][1]["total"] = total
