@@ -367,9 +367,6 @@
             <button on:click={() => changePage(4)} class="leftBar-button">Crypto</button>
             <button on:click={() => changePage(5)} class="leftBar-button">Sync</button>
             <button on:click={() => changePage(6)} class="leftBar-button">Settings</button>
-            <button on:click={() => changePage(6)} class="leftBar-button">Settings</button>
-            <button on:click={() => changePage(6)} class="leftBar-button">Settings</button>
-            <button on:click={() => changePage(6)} class="leftBar-button">Settings</button>
         </div>
         <div id="middleBar">
             {#if currentPage == 0}
