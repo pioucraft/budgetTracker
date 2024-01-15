@@ -136,7 +136,7 @@
         padding: 5vh;
         display: flex;
         flex-direction: column;
-        overflow-x: auto;
+        overflow-y: auto;
     }
 
     #middleBar {
@@ -307,7 +307,7 @@
         }
 
         #leftBar {
-            overflow: scroll;
+            overflow-x: scroll;
             position: fixed;
             height: 2em;
             flex-direction: row;
@@ -398,7 +398,7 @@
                         <h2>{account[0]}</h2>
                         <h3>{account[1]["total"]} {save["settings"]["defaultCurrency"]}</h3>
                         <p>Top 3 assets :</p>
-                        <h4>{account[1]["topAssets"][0][1][0]} {account[1]["topAssets"][0][0]} | {account[1]["topAssets"][1][1][0]} {account[1]["topAssets"][1][0]} | {account[1]["topAssets"][2][1][0]} {account[1]["topAssets"][2][0]}</h4>
+                        <h4>{account[1]["topAssets"][0][1][0] ?? "0"} {account[1]["topAssets"][0][0] ?? "USD"} | {account[1]["topAssets"][1][1][0] ?? "0"} {account[1]["topAssets"][1][0] ?? "USD"} | {account[1]["topAssets"][2][1][0] ?? "0"} {account[1]["topAssets"][2][0] ?? "USD"}</h4>
                     </div>
                 {/each}
             {:else if currentPage == 2}
