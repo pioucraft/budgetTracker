@@ -201,8 +201,8 @@
 
     .box {
         background-color: var(--primary);
-        padding: 2vw;
-        border-radius: 5vh;
+        padding: 3%;
+        border-radius: 2vh;
         margin: 1.5vw;
     }
 
@@ -368,10 +368,6 @@
         #home-topBar {
             display: flex;
             flex-direction: column;
-        }
-
-        .box {
-            padding: 5%;
         }
 
         #middleBar {
