@@ -401,6 +401,10 @@
                         <h4>{account[1]["topAssets"][0][1][0]} {account[1]["topAssets"][0][0]} | {account[1]["topAssets"][1][1][0]} {account[1]["topAssets"][1][0]} | {account[1]["topAssets"][2][1][0]} {account[1]["topAssets"][2][0]}</h4>
                     </div>
                 {/each}
+            {:else if currentPage == 2}
+                <p>2</p>
+            {:else if currentPage == 3}
+                <p>3</p>
             {/if}
         </div>
     </div>
