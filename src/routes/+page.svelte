@@ -111,6 +111,7 @@
             }
         }
         localStorage.setItem("save", JSON.stringify(save))
+        location.reload()
     }
 
     
