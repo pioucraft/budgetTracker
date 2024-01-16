@@ -189,7 +189,7 @@
         "search search";
         grid-template-columns: 5em auto;
         grid-template-rows: 5em auto;
-        gap: 3%;
+        gap: 0.5vw;
         min-height: 15vh;
     }
 
