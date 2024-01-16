@@ -116,6 +116,12 @@
 
     
     function changePage(nb) {
+        document.querySelectorAll(".selectedItem").forEach(element => {
+            element.classList.remove("selectedItem")
+        })
+
+        document.getElementById("leftBar-button-"+nb).classList.add("selectedItem")
+
         currentPage = nb
     }
 </script>
@@ -326,7 +332,11 @@
 
         .leftBar-button {
             padding: 0.5vh;
+            padding-left: 1vh;
+            padding-right: 1vh;
             margin-top: 0;
+            width: min-content;
+            border-radius: 0;
         }
 
         .leftBar-button:hover {
@@ -340,6 +350,10 @@
 
         #middleBar {
             margin-top: 2em;
+        }
+        
+        .selectedItem {
+            border-bottom: solid blue;
         }
     }
 </style>
@@ -367,13 +381,13 @@
     <div id="wrapper">
         <div id="leftBar">
             
-            <button on:click={() => changePage(0)} class="leftBar-button">Home</button>
-            <button on:click={() => changePage(1)} class="leftBar-button">Accounts</button>
-            <button on:click={() => changePage(2)} class="leftBar-button">Budget</button>
-            <button on:click={() => changePage(3)} class="leftBar-button">Stock</button>
-            <button on:click={() => changePage(4)} class="leftBar-button">Crypto</button>
-            <button on:click={() => changePage(5)} class="leftBar-button">Sync</button>
-            <button on:click={() => changePage(6)} class="leftBar-button">Settings</button>
+            <button on:click={() => changePage(0)} class="leftBar-button selectedItem" id="leftBar-button-0">Home</button>
+            <button on:click={() => changePage(1)} class="leftBar-button" id="leftBar-button-1">Accounts</button>
+            <button on:click={() => changePage(2)} class="leftBar-button" id="leftBar-button-2">Budget</button>
+            <button on:click={() => changePage(3)} class="leftBar-button" id="leftBar-button-3">Stock</button>
+            <button on:click={() => changePage(4)} class="leftBar-button" id="leftBar-button-4">Crypto</button>
+            <button on:click={() => changePage(5)} class="leftBar-button" id="leftBar-button-5">Sync</button>
+            <button on:click={() => changePage(6)} class="leftBar-button" id="leftBar-button-6">Settings</button>
         </div>
         <div id="middleBar">
             {#if currentPage == 0}
