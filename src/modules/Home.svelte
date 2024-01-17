@@ -58,16 +58,16 @@
         border-bottom: solid black;
     }
 
-    #home-transaction {
+    .home-transaction {
         text-align: start;
+        padding: 1%;
         font-size: large;
         background-color: transparent;
         border: none;
         cursor: pointer;
-        padding: 3vh;
     }
 
-    #home-transaction:hover {
+    .home-transaction:hover {
         background-color: azure;
     }
 
@@ -99,11 +99,6 @@
 </div>
 <div class="blackSeparator"></div>
 
-<button id="home-transaction">1BTC => 1CHF | a random description but ok | 30th february 2023 15:13</button>
-<button id="home-transaction">1BTC => 1CHF | a random description but ok | 30th february 2023 15:13</button>
-<button id="home-transaction">1BTC => 1CHF | a random description but ok | 30th february 2023 15:13</button>
-<button id="home-transaction">1BTC => 1CHF | a random description but ok | 30th february 2023 15:13</button>
-<button id="home-transaction">1BTC => 1CHF | a random description but ok | 30th february 2023 15:13</button>
-<button id="home-transaction">1BTC => 1CHF | a random description but ok | 30th february 2023 15:13</button>
-<button id="home-transaction">1BTC => 1CHF | a random description but ok | 30th february 2023 15:13</button>
-<button id="home-transaction">1BTC => 1CHF | a random description but ok | 30th february 2023 15:13</button>
+<button class="home-transaction">1 BTC => 1 CHF ||  Description of the thing || 23rd august 2048 || Main account</button>
+<button class="home-transaction">1 BTC => 1 CHF ||  Description of the thing || 23rd august 2048 || Main account</button>
+<button class="home-transaction">1 BTC => 1 CHF ||  Description of the thing || 23rd august 2048 || Main account</button>
