@@ -1,8 +1,7 @@
 <script>
-
     import { onMount } from 'svelte'
 
-    import { createSave, defaultSave } from "../modules/global.js"
+    import { createSave, defaultSave } from "../modules/global"
 
     import Home from "../modules/Home.svelte"
     import Accounts from '../modules/Accounts.svelte';
@@ -34,7 +33,7 @@
         save = defaultSave
         save.settings.defaultCurrency = currency
         localStorage.setItem("save", JSON.stringify(save))
-        location.reload()
+        window.location.reload()
     }
 
     
@@ -44,9 +43,11 @@
         })
 
         document.getElementById("leftBar-button-"+nb).classList.add("selectedItem")
-
         currentPage = nb
+        
     }
+
+    
 </script>
 
 <style>

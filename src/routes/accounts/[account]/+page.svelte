@@ -10,29 +10,54 @@
     
     var currencyConverter = {"USD": 1}
 
+    var currentAccount = accounts[0]
+
     onMount(async () => {
         save = (await createSave())["save"]
         accounts = (await createSave())["accounts"]
         currencyConverter = (await createSave())["rates"]
-        document.getElementById('dateInput').valueAsDate = new Date();
+        currentAccount = accounts[Number(data.account)]
     })
 
     
-    $: currentAccount = accounts[data.account]
-
-    function test() {
-        alert(new Date(document.getElementById("dateInput").value).getTime())
-    }
 
 
-    
 </script>
 
-<p>{JSON.stringify(currentAccount)}</p>
+<style>
 
-{#each currentAccount[1]["transactions"] as transaction}
-    <p>{JSON.stringify(transaction[1])} => {(transaction[1]/currencyConverter[transaction[2]]*currencyConverter[save["settings"]["defaultCurrency"]]).toFixed(2)} || {transaction[0]} || </p>
-{/each}
+    #wrapper {
+        height: 100vh;
+    }
 
-<input id="dateInput" type="datetime-local" value="2024-01-01T00:00">
-<button on:click={test}>q</button>
+    #wrapper-back {
+        height: 8%;
+        padding-left: 1%;
+        cursor: pointer;
+        font-size: xx-large;
+        background: none;
+        border: none;
+    }
+
+    #wrapper-transactions {
+        height: 92%;
+        overflow: auto;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+</style>
+
+
+
+<div id="wrapper">
+    <button on:click={() => history.back()} id="wrapper-back">←</button>
+
+    <div id="wrapper-transactions">
+    {#each currentAccount[1]["transactions"] as transaction}
+        <button class="transaction">{transaction[1]} {transaction[2]} => {(transaction[1]/currencyConverter[transaction[2]]*currencyConverter[save["settings"]["defaultCurrency"]]).toFixed(2)} {save["settings"]["defaultCurrency"]} || {transaction[0]} || {new Date(transaction[4]).toLocaleTimeString(undefined, {"day": "numeric", "month": "long", "year": "numeric", "hour" : "numeric", "minute": "numeric"})}</button>
+    {/each}
+    </div>
+    
+
+</div>

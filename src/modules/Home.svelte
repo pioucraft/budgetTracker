@@ -58,18 +58,7 @@
         border-bottom: solid black;
     }
 
-    .home-transaction {
-        text-align: start;
-        padding: 1%;
-        font-size: large;
-        background-color: transparent;
-        border: none;
-        cursor: pointer;
-    }
-
-    .home-transaction:hover {
-        background-color: azure;
-    }
+    
 
     @media only screen and (max-width: 100vh) {
         #home-topBar {
@@ -99,6 +88,6 @@
 </div>
 <div class="blackSeparator"></div>
 
-<button class="home-transaction">1 BTC => 1 CHF ||  Description of the thing || 23rd august 2048 || Main account</button>
-<button class="home-transaction">1 BTC => 1 CHF ||  Description of the thing || 23rd august 2048 || Main account</button>
-<button class="home-transaction">1 BTC => 1 CHF ||  Description of the thing || 23rd august 2048 || Main account</button>
+<button class="transaction">1 BTC => 1 CHF ||  Description of the thing || 23rd august 2048 || Main account</button>
+<button class="transaction">1 BTC => 1 CHF ||  Description of the thing || 23rd august 2048 || Main account</button>
+<button class="transaction">1 BTC => 1 CHF ||  Description of the thing || 23rd august 2048 || Main account</button>
