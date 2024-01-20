@@ -2,7 +2,7 @@
     export let data
 
     import { onMount } from "svelte"
-    import { createSave, defaultSave } from "../../../modules/global.js"
+    import { createSave, defaultSave} from "../../../modules/global.js"
 
     var save = defaultSave
 
@@ -12,16 +12,15 @@
 
     var currentAccount = accounts[0]
 
+    var currentLocation = ""
+
     onMount(async () => {
         save = (await createSave())["save"]
         accounts = (await createSave())["accounts"]
         currencyConverter = (await createSave())["rates"]
         currentAccount = accounts[Number(data.account)]
+        currentLocation = window.location.href
     })
-
-    
-
-
 </script>
 
 <style>
@@ -55,7 +54,7 @@
 
     <div id="wrapper-transactions">
     {#each currentAccount[1]["transactions"] as transaction}
-        <button class="transaction">{transaction[1]} {transaction[2]} => {(transaction[1]/currencyConverter[transaction[2]]*currencyConverter[save["settings"]["defaultCurrency"]]).toFixed(2)} {save["settings"]["defaultCurrency"]} || {transaction[0]} || {new Date(transaction[4]).toLocaleTimeString(undefined, {"day": "numeric", "month": "long", "year": "numeric", "hour" : "numeric", "minute": "numeric"})}</button>
+        <a class="transaction" href={`${currentLocation}/${currentAccount[1]["transactions"].indexOf(transaction)}`}>{transaction[1]} {transaction[2]} => {transaction[5].toFixed(2)} {save["settings"]["defaultCurrency"]} || {transaction[0]} || {new Date(transaction[4]).toLocaleTimeString(undefined, {"day": "numeric", "month": "long", "year": "numeric", "hour" : "numeric", "minute": "numeric"})}</a>
     {/each}
     </div>
     

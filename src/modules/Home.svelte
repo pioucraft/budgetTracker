@@ -88,6 +88,6 @@
 </div>
 <div class="blackSeparator"></div>
 
-<button class="transaction">1 BTC => 1 CHF ||  Description of the thing || 23rd august 2048 || Main account</button>
-<button class="transaction">1 BTC => 1 CHF ||  Description of the thing || 23rd august 2048 || Main account</button>
-<button class="transaction">1 BTC => 1 CHF ||  Description of the thing || 23rd august 2048 || Main account</button>
+<a class="transaction">1 BTC => 1 CHF ||  Description of the thing || 23rd august 2048 || Main account</a>
+<a class="transaction">1 BTC => 1 CHF ||  Description of the thing || 23rd august 2048 || Main account</a>
+<a class="transaction">1 BTC => 1 CHF ||  Description of the thing || 23rd august 2048 || Main account</a>
