@@ -21,7 +21,9 @@ export async function createSave() {
             let total = 0
             let assets = {}
             
-            account[1]["transactions"].forEach(transaction => {
+            for(let i=0;i<account[1]["transactions"].length;i++) {
+
+                let transaction = account[1]["transactions"][i]
 
                 let converted = 0
                 
@@ -29,7 +31,7 @@ export async function createSave() {
                     converted = transaction[1]/currencyConverter[transaction[2]]*currencyConverter[save["settings"]["defaultCurrency"]]
                 }
 
-                account[1]["transactions"][account[1]["transactions"].indexOf(transaction)].push(converted)
+                account[1]["transactions"][i].push(converted)
                 
                 total += converted
                 
@@ -38,7 +40,7 @@ export async function createSave() {
                 assets[transaction[2]][0] += transaction[1]
                 
                 assets[transaction[2]][1] += converted
-            })
+            }
             total = Number(total.toFixed(2))
             assets = Object.entries(assets)
             
