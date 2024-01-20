@@ -33,7 +33,7 @@
     function start() {
         
         let currency = document.getElementById("temporary-currencySelector").value
-        save = defaultSave
+        save = {"accounts": {}, "settings": {}}
         save.settings.defaultCurrency = currency
         localStorage.setItem("save", JSON.stringify(save))
         window.location.reload()
