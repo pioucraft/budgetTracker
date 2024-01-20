@@ -3,15 +3,15 @@ import { Convert } from "easy-currencies";
 
 var [save, accounts] = ["", ""]
 
-var currencyConverter = {"USD": 1}
+
 
 export async function createSave() {
     
-    
-    let currencyConverter = ((await Convert().from("USD").fetch()).rates)
+    let currencyConverter = {"USD": 1}
+    currencyConverter = ((await Convert().from("USD").fetch()).rates)
     save = JSON.parse(localStorage.getItem("save"))
     let bigAccount = {"transactions": []}
-    if(save["accounts"]) {
+    if((save ?? [])["accounts"]) {
         accounts = Object.entries(save["accounts"])
 
         var accountsIndex = 0
@@ -91,7 +91,7 @@ export async function createSave() {
         bigAccount["transactions"].sort((a, b) => b[4]-a[4])
     }
 
-    return {"save": save, "accounts": accounts, "rates": currencyConverter, "bigAccount": bigAccount}
+    return {"save": save ?? undefined, "accounts": accounts ?? undefined, "rates": currencyConverter, "bigAccount": bigAccount ?? undefined}
 }
 
 export var defaultSave = {
