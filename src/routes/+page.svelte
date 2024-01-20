@@ -17,6 +17,7 @@
     var accounts = save["accounts"]
     
     var currencyConverter = {"USD": 1}
+    var bigAccount = {"transactions": [], "total": 3, "assets": [[undefined, []], [undefined, []], [undefined, []]]}
     
     //change the default variables to "normal things"
 
@@ -25,6 +26,8 @@
         save = (await createSave())["save"]
         accounts = (await createSave())["accounts"]
         currencyConverter = (await createSave())["rates"]
+        bigAccount = (await createSave())["bigAccount"]
+        console.log(bigAccount)
     })
 
     function start() {
@@ -221,7 +224,7 @@
         </div>
         <div id="middleBar">
             {#if currentPage == 0}
-                <Home />
+                <Home bigAccount={bigAccount} save={save} />
             {:else if currentPage == 1}
                 <Accounts accounts={accounts} defaultCurrency={save["settings"]["defaultCurrency"]} />      
             {:else if currentPage == 2}

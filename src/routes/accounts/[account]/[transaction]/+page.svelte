@@ -51,6 +51,6 @@
         <h2>{currentTransaction[1]} {currentTransaction[2]}</h2>
         <h2>{currentTransaction[5].toFixed(2)} {save["settings"]["defaultCurrency"]}</h2>
         <h3>{new Date(currentTransaction[4]).toLocaleTimeString(undefined, {"day": "numeric", "month": "long", "year": "numeric", "hour" : "numeric", "minute": "numeric"})}</h3>
-        <h3>{accounts[Number(data.account)][0]}</h3>
+        <h3>{(accounts[Number(data.account)] ?? ["Main account"])[0]}</h3>
     </div>
 </div>

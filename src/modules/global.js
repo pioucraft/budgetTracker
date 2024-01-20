@@ -1,5 +1,4 @@
 import { Convert } from "easy-currencies";
-import { onMount } from "svelte";
 
 
 var [save, accounts] = ["", ""]
@@ -11,11 +10,15 @@ export async function createSave() {
     
     let currencyConverter = ((await Convert().from("USD").fetch()).rates)
     save = JSON.parse(localStorage.getItem("save"))
-    
+    let bigAccount = {"transactions": []}
     if(save["accounts"]) {
         accounts = Object.entries(save["accounts"])
 
         var accountsIndex = 0
+
+        
+        let bigAccountTotal = 0
+        let bigAccountAssets = {}
         accounts.forEach(account => {
             
             let total = 0
@@ -32,14 +35,22 @@ export async function createSave() {
                 }
 
                 account[1]["transactions"][i].push(converted)
+                account[1]["transactions"][i].push(`/accounts/${accountsIndex}/${i}`)
+                account[1]["transactions"][i].push(account[0])
+
+                bigAccount["transactions"].push(account[1]["transactions"][i])
                 
                 total += converted
+                bigAccountTotal += converted
                 
                 if(!assets[transaction[2]]) assets[transaction[2]] = [0, 0]
+                if(!bigAccountAssets[transaction[2]]) bigAccountAssets[transaction[2]] = [0, 0]
                 
                 assets[transaction[2]][0] += transaction[1]
+                bigAccountAssets[transaction[2]][0] += transaction[1]
                 
                 assets[transaction[2]][1] += converted
+                bigAccountAssets[transaction[2]][1] += converted
             }
             total = Number(total.toFixed(2))
             assets = Object.entries(assets)
@@ -60,9 +71,27 @@ export async function createSave() {
             accounts[accountsIndex][1]["topAssets"] = assets
             accountsIndex++
         })
+
+        bigAccountTotal = Number(bigAccountTotal.toFixed(2))
+        bigAccountAssets = Object.entries(bigAccountAssets)
+        
+        bigAccountAssets = bigAccountAssets.sort((a, b) => a[1][1]-b[1][1]).reverse()
+        bigAccountAssets.map(x => {
+            x[1][1] = Number(x[1][1].toFixed(2))
+        })
+
+        if(bigAccountAssets.length < 3) {
+            bigAccountAssets.push([undefined, []])
+            bigAccountAssets.push([undefined, []])
+            bigAccountAssets.push([undefined, []])
+        }
+        bigAccount["assets"] = bigAccountAssets
+        bigAccount["total"] = bigAccountTotal
+
+        bigAccount["transactions"].sort((a, b) => b[4]-a[4])
     }
 
-    return {"save": save, "accounts": accounts, "rates": currencyConverter}
+    return {"save": save, "accounts": accounts, "rates": currencyConverter, "bigAccount": bigAccount}
 }
 
 export var defaultSave = {
