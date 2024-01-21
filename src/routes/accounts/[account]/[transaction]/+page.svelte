@@ -39,7 +39,7 @@
         width: 100%;
         display: flex;
         flex-direction: column;
-        align-items: center;
+        padding-left: 5%;
     }
 </style>
 

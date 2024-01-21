@@ -14,7 +14,7 @@
         save = (await createSave())["save"]
         accounts = (await createSave())["accounts"]
         currencyConverter = (await createSave())["rates"]
-        document.getElementById('dateInput').valueAsDate = new Date();
+        
     })
 
     
@@ -34,5 +34,5 @@
     <p>{JSON.stringify(transaction[1])} => {(transaction[1]/currencyConverter[transaction[2]]*currencyConverter[save["settings"]["defaultCurrency"]]).toFixed(2)} || {transaction[0]} || </p>
 {/each}
 
-<input id="dateInput" type="datetime-local" value="2024-01-01T00:00">
+
 <button on:click={test}>q</button>

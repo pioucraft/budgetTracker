@@ -29,6 +29,11 @@
         border-radius: 1vh;
         font-size: xx-large;
         cursor: pointer;
+        color: inherit;
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 
     #home-topBar-right-add:hover {
@@ -88,7 +93,7 @@
         <h3>{bigAccount["assets"][0][1][0] ?? "0"} {bigAccount["assets"][0][0] ?? "USD"} | {bigAccount["assets"][1][1][0] ?? "0"} {bigAccount["assets"][1][0] ?? "USD"} | {bigAccount["assets"][2][1][0] ?? "0"} {bigAccount["assets"][2][0] ?? "USD"}</h3>
     </div>
     <div id="home-topBar-right" class="box">
-        <button id="home-topBar-right-add">+</button>
+        <a href={"/add"} id="home-topBar-right-add">+</a>
         <button id="home-topBar-right-donate">Donate</button>
         <input id="home-topBar-right-search" placeholder="Search" type="search">
     </div>
