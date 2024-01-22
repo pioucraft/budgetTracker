@@ -222,7 +222,7 @@
             <button on:click={() => changePage(5)} class="leftBar-button" id="leftBar-button-5">Sync</button>
             <button on:click={() => changePage(6)} class="leftBar-button" id="leftBar-button-6">Settings</button>
             <button class="leftBar-button" on:click={() => location.href = "https://github.com/pioucraft/budgetTracker"}>Source code</button>
-            <button class="leftBar-button">Contact me!</button>
+            <button class="leftBar-button" on:click={() => location.href="mailto:hello@gougoule.ch"}>Contact me!</button>
         </div>
         <div id="middleBar">
             {#if currentPage == 0}
