@@ -47,6 +47,11 @@
         border-radius: 1vh;
         font-size: large;
         cursor: pointer;
+        color: inherit;
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 
     #home-topBar-right-donate:hover {
@@ -94,7 +99,7 @@
     </div>
     <div id="home-topBar-right" class="box">
         <a href={"/add"} id="home-topBar-right-add">+</a>
-        <button id="home-topBar-right-donate">Donate</button>
+        <a id="home-topBar-right-donate" href={"/donate"}>Donate</a>
         <input id="home-topBar-right-search" placeholder="Search" type="search">
     </div>
 </div>
