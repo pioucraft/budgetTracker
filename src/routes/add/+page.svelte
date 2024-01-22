@@ -33,6 +33,18 @@
         localStorage.setItem("save", JSON.stringify(save))
         history.back()
     }
+
+    function addAccount() {
+        let accountName = document.getElementById("accountName").value
+        if(save["accounts"].hasOwnProperty(accountName)) {
+            alert("This account already exists")
+        }
+        else {
+            save["accounts"][accountName] = {"transactions": []}
+            localStorage.setItem("save", JSON.stringify(save))
+            history.back()
+        }
+    }
 </script>
 
 <style>
@@ -96,7 +108,7 @@
         gap: 1.5vw;
     }
 
-    #addTransaction {
+    #addTransaction, #addAccount {
         background-color: var(--primary);
         border: none;
         border-radius: 1vh;
@@ -107,7 +119,7 @@
         box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgb(0, 0, 0) 0px 1px 3px -1px;
     }
 
-    #addTransaction:hover {
+    #addTransaction:hover, #addAccount:hover {
         background-color: var(--accent);
     }
 
@@ -166,6 +178,9 @@
     <button id="addTransaction" on:click={addTransaction}>Add the transaction !</button>
 
     {:else if currentType == "account"}
+        <h2>Account name :</h2>
+        <input type="text" id="accountName">
 
+        <button id="addAccount" on:click={addAccount}>Add account !</button>
     {/if}
 </div>

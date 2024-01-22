@@ -21,6 +21,15 @@
         currentAccount = accounts[Number(data.account)]
         currentLocation = window.location.href
     })
+
+    function deleteAccount() {
+        let confirmed = confirm("Do you really want to delete this account ? THIS ACTION CAN'T BE REVERSED !")
+        if(confirmed) {
+            delete save["accounts"][accounts[data.account][0]]
+            localStorage.setItem("save", JSON.stringify(save))
+            history.back()
+        }
+    }
 </script>
 
 <style>
@@ -45,6 +54,19 @@
         display: flex;
         flex-direction: column;
     }
+
+    #deleteAccount {
+        position: fixed;
+        top: 2vh;
+        right: 1vw;
+        background-color: red;
+        border: none;
+        border-radius: 1vh;
+        font-size: large;
+        padding: 1vh;
+        cursor: pointer;
+        box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgb(0, 0, 0) 0px 1px 3px -1px;
+    }
 </style>
 
 
@@ -58,5 +80,5 @@
     {/each}
     </div>
     
-
+    <button on:click={deleteAccount} id="deleteAccount">Delete account</button>
 </div>
