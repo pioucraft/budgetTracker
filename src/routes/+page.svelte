@@ -5,6 +5,7 @@
 
     import Home from "../modules/Home.svelte"
     import Accounts from '../modules/Accounts.svelte';
+    import Settings from '../modules/Settings.svelte';
 
     //set variables
 
@@ -229,6 +230,8 @@
                 <Home bigAccount={bigAccount} save={save} />
             {:else if currentPage == 1}
                 <Accounts accounts={accounts} defaultCurrency={save["settings"]["defaultCurrency"]} />      
+            {:else if currentPage == 6}
+                <Settings/>
             {:else}
                 <p style="text-align: center; margin-top: 40vh">Coming soon</p>
             {/if}

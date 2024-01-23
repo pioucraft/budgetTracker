@@ -1,6 +1,4 @@
 <script>
-    import { onMount } from "svelte";
-
     export let bigAccount
     export let save
 </script>
