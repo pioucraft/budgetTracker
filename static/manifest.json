@@ -1,6 +1,6 @@
 {
-    "name": "APP NAME",
-    "description": "YOUR DESCRIPTION",
+    "name": "Budget Tracker (beta)",
+    "description": "A simple budget tracker (beta)",
     "display": "standalone",
     "start_url": "/",
     "icons": [
