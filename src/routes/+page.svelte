@@ -107,6 +107,7 @@
         flex-direction: row;
         padding-left: 10%;
         padding-right: 10%;
+        overflow-y: scroll;
     }
 
     #temporary {
