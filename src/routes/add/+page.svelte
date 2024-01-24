@@ -11,7 +11,10 @@
     onMount(async () => {
         save = (await createSave())["save"]
         currencyConverter = (await createSave())["rates"]
-        document.getElementById('dateInput').valueAsDate = new Date();
+        var now = new Date();
+        now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
+
+        document.getElementById('dateInput').value = now.toISOString().slice(0,16);
         document.getElementById("currencySelector").value = "CHF"
     })
 
