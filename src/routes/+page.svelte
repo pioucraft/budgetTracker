@@ -91,6 +91,7 @@
         border-radius: 5vh;
         cursor: pointer;
         width: 85%;
+        white-space: nowrap;
     }    
     
     .leftBar-button:hover {

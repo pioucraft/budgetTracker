@@ -1,6 +1,7 @@
 <style>
     #wrapper {
         padding: 2%;
+        overflow-y: scroll;
     }
 </style>
 
