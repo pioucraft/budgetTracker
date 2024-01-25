@@ -93,14 +93,13 @@ export async function createSave() {
         bigAccountAssets = Object.entries(bigAccountAssets)
         
         bigAccountAssets = bigAccountAssets.sort((a, b) => a[1][1]-b[1][1]).reverse()
-        bigAccountAssets = bigAccountAssets.sort((a, b) => {
-            if(a[0] == "currency" || a[0] == "crypto" || a[0] == "stock") {
-                return 1
+        for(let i=0;i<bigAccountAssets.length;i++) {
+            if(bigAccountAssets[i][0] == "currency" || bigAccountAssets[i][0] == "crypto" || bigAccountAssets[i][0] == "stock") {
+                let temporaryElement = bigAccountAssets[i]
+                bigAccountAssets.splice(i, 1)
+                bigAccountAssets.push(temporaryElement)
             }
-            else {
-                return -1
-            }
-        })
+        }
         bigAccountAssets.map(x => {
             x[1][1] = Number(x[1][1].toFixed(2))
         })
