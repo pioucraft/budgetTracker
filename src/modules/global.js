@@ -18,6 +18,8 @@ export async function createSave() {
         
         let bigAccountTotal = 0
         let bigAccountAssets = {}
+        bigAccountAssets["currency"] = [0, 0]
+        bigAccountAssets["crypto"] = [0, 0]
         for(let accountsIndex =0;accountsIndex<accounts.length;accountsIndex++) {
 
             let account = accounts[accountsIndex]
@@ -31,13 +33,20 @@ export async function createSave() {
                 
                 if(transaction) {
                     let converted = 0
+
+                    
                     
                     if(transaction[3] == "currency") {
-                        converted = transaction[1]/currencyConverter[transaction[2]]*currencyConverter[save["settings"]["defaultCurrency"]]
+                        converted = transaction[1]/currencyConverter[transaction[2]]*currencyConverter[save["settings"]["defaultCurrency"]];
+                        bigAccountAssets["currency"][0] += 0;
+                        bigAccountAssets["currency"][1] += converted;
+                        console.log(converted)
                     }
 
                     if(transaction[3] == "crypto") {
                         converted = (await getCryptoRates([`${transaction[2]}USDT`]))["data"][0]["price"] * currencyConverter[save["settings"]["defaultCurrency"]] * transaction[1]
+                        bigAccountAssets["crypto"][0] += 0
+                        bigAccountAssets["crypto"][1] += converted
                     }
 
                     account[1]["transactions"][i].push(converted)

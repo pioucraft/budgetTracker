@@ -6,6 +6,7 @@
     import Home from "../modules/Home.svelte"
     import Accounts from '../modules/Accounts.svelte';
     import Settings from '../modules/Settings.svelte';
+    import Summary from '../modules/Summary.svelte';
 
     //set variables
 
@@ -219,7 +220,7 @@
             <button on:click={() => changePage(0)} class="leftBar-button selectedItem" id="leftBar-button-0">Home</button>
             <button on:click={() => changePage(1)} class="leftBar-button" id="leftBar-button-1">Accounts</button>
             <button on:click={() => changePage(2)} class="leftBar-button" id="leftBar-button-2">Budget</button>
-            <button on:click={() => changePage(3)} class="leftBar-button" id="leftBar-button-3">Summaries</button>
+            <button on:click={() => changePage(3)} class="leftBar-button" id="leftBar-button-3">Summary</button>
             <button on:click={() => changePage(4)} class="leftBar-button" id="leftBar-button-4">Settings</button>
             <button class="leftBar-button" on:click={() => location.href = "https://github.com/pioucraft/budgetTracker"}>Source code</button>
             <button class="leftBar-button" on:click={() => location.href="mailto:hello@gougoule.ch"}>Contact me!</button>
@@ -229,6 +230,10 @@
                 <Home bigAccount={bigAccount} save={save} />
             {:else if currentPage == 1}
                 <Accounts accounts={accounts} defaultCurrency={save["settings"]["defaultCurrency"]} />
+            {:else if currentPage == 2}
+                <p style="text-align: center; margin-top: 40vh">I don't need budget personally, but if a lot of people use my app, I will add it. You can also ask me to add it now my <a href="mailto:hello@gougoule.ch">emailing me</a>.</p>
+            {:else if currentPage == 3}
+                <Summary bigAccount={bigAccount} save={save} />
             {:else if currentPage == 4}
                 <Settings/>
             {:else}
