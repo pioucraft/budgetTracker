@@ -219,10 +219,8 @@
             <button on:click={() => changePage(0)} class="leftBar-button selectedItem" id="leftBar-button-0">Home</button>
             <button on:click={() => changePage(1)} class="leftBar-button" id="leftBar-button-1">Accounts</button>
             <button on:click={() => changePage(2)} class="leftBar-button" id="leftBar-button-2">Budget</button>
-            <button on:click={() => changePage(3)} class="leftBar-button" id="leftBar-button-3">Stock</button>
-            <button on:click={() => changePage(4)} class="leftBar-button" id="leftBar-button-4">Crypto</button>
-            <button on:click={() => changePage(5)} class="leftBar-button" id="leftBar-button-5">Sync</button>
-            <button on:click={() => changePage(6)} class="leftBar-button" id="leftBar-button-6">Settings</button>
+            <button on:click={() => changePage(3)} class="leftBar-button" id="leftBar-button-3">Summaries</button>
+            <button on:click={() => changePage(4)} class="leftBar-button" id="leftBar-button-4">Settings</button>
             <button class="leftBar-button" on:click={() => location.href = "https://github.com/pioucraft/budgetTracker"}>Source code</button>
             <button class="leftBar-button" on:click={() => location.href="mailto:hello@gougoule.ch"}>Contact me!</button>
         </div>
@@ -230,8 +228,8 @@
             {#if currentPage == 0}
                 <Home bigAccount={bigAccount} save={save} />
             {:else if currentPage == 1}
-                <Accounts accounts={accounts} defaultCurrency={save["settings"]["defaultCurrency"]} />      
-            {:else if currentPage == 6}
+                <Accounts accounts={accounts} defaultCurrency={save["settings"]["defaultCurrency"]} />
+            {:else if currentPage == 4}
                 <Settings/>
             {:else}
                 <p style="text-align: center; margin-top: 40vh">Coming soon</p>

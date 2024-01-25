@@ -28,34 +28,38 @@ export async function createSave() {
             for(let i=0;i<account[1]["transactions"].length;i++) {
 
                 let transaction = account[1]["transactions"][i]
-
-                let converted = 0
                 
-                if(transaction[3] == "currency") {
-                    converted = transaction[1]/currencyConverter[transaction[2]]*currencyConverter[save["settings"]["defaultCurrency"]]
+                if(transaction) {
+                    let converted = 0
+                    
+                    if(transaction[3] == "currency") {
+                        converted = transaction[1]/currencyConverter[transaction[2]]*currencyConverter[save["settings"]["defaultCurrency"]]
+                    }
+
+                    if(transaction[3] == "crypto") {
+                        converted = (await getCryptoRates([`${transaction[2]}USDT`]))["data"][0]["price"] * currencyConverter[save["settings"]["defaultCurrency"]] * transaction[1]
+                    }
+
+                    account[1]["transactions"][i].push(converted)
+                    account[1]["transactions"][i].push(`/accounts/${accountsIndex}/${i}`)
+                    account[1]["transactions"][i].push(account[0])
+
+                    bigAccount["transactions"].push(account[1]["transactions"][i])
+                    
+                    total += converted
+                    bigAccountTotal += converted
+                    
+                    if(!assets[transaction[2]]) assets[transaction[2]] = [0, 0]
+                    if(!bigAccountAssets[transaction[2]]) bigAccountAssets[transaction[2]] = [0, 0]
+                    
+                    assets[transaction[2]][0] += transaction[1]
+                    bigAccountAssets[transaction[2]][0] += transaction[1]
+                    
+                    assets[transaction[2]][1] += converted
+                    bigAccountAssets[transaction[2]][1] += converted
                 }
 
-                if(transaction[3] == "crypto") {
-                    converted = (await getCryptoRates([`${transaction[2]}USDT`]))["data"][0]["price"] * currencyConverter[save["settings"]["defaultCurrency"]] * transaction[1]
-                }
-
-                account[1]["transactions"][i].push(converted)
-                account[1]["transactions"][i].push(`/accounts/${accountsIndex}/${i}`)
-                account[1]["transactions"][i].push(account[0])
-
-                bigAccount["transactions"].push(account[1]["transactions"][i])
                 
-                total += converted
-                bigAccountTotal += converted
-                
-                if(!assets[transaction[2]]) assets[transaction[2]] = [0, 0]
-                if(!bigAccountAssets[transaction[2]]) bigAccountAssets[transaction[2]] = [0, 0]
-                
-                assets[transaction[2]][0] += transaction[1]
-                bigAccountAssets[transaction[2]][0] += transaction[1]
-                
-                assets[transaction[2]][1] += converted
-                bigAccountAssets[transaction[2]][1] += converted
             }
             total = Number(total.toFixed(2))
             assets = Object.entries(assets)

@@ -18,6 +18,15 @@
         console.log(accounts)
         currentTransaction = accounts[Number(data.account)][1]["transactions"][Number(data.transaction)]
     })
+
+    function deleteTransaction() {
+        let confirmed = confirm("Do you really want to delete this transaction ? THIS ACTION CAN'T BE REVERSED !")
+        if(confirmed) {
+            save["accounts"][accounts[data.account][0]]["transactions"].splice(data.transaction, 1)
+            localStorage.setItem("save", JSON.stringify(save))
+            history.back()
+        }
+    }
 </script>
 
 <style>
@@ -42,6 +51,19 @@
         flex-direction: column;
         padding-left: 5%;
     }
+
+    #deleteTransaction {
+        position: fixed;
+        top: 2vh;
+        right: 1vw;
+        background-color: red;
+        border: none;
+        border-radius: 1vh;
+        font-size: large;
+        padding: 1vh;
+        cursor: pointer;
+        box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgb(0, 0, 0) 0px 1px 3px -1px;
+    }
 </style>
 
 <div id="wrapper">
@@ -54,4 +76,6 @@
         <h3>{new Date(currentTransaction[4]).toLocaleTimeString(undefined, {"day": "numeric", "month": "long", "year": "numeric", "hour" : "numeric", "minute": "numeric"})}</h3>
         <h3>{(accounts[Number(data.account)] ?? ["Main account"])[0]}</h3>
     </div>
+
+    <button on:click={deleteTransaction} id="deleteTransaction">Delete transaction</button>
 </div>
