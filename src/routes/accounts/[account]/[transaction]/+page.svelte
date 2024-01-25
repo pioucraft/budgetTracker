@@ -11,9 +11,10 @@
     var currentTransaction = accounts[0][1]["transactions"][0]
 
     onMount(async () => {
-        save = (await createSave())["save"]
+        let createdSave = (await createSave())
+        save = createdSave["save"]
         console.log(save)
-        accounts = (await createSave())["accounts"]
+        accounts = createdSave["accounts"]
         console.log(accounts)
         currentTransaction = accounts[Number(data.account)][1]["transactions"][Number(data.transaction)]
     })

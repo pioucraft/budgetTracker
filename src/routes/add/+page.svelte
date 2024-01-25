@@ -8,14 +8,16 @@
 
     let currentType = "transaction"
 
+    let currencySelector = "default"
+
     onMount(async () => {
-        save = (await createSave())["save"]
-        currencyConverter = (await createSave())["rates"]
-        var now = new Date();
+        let createdSave = (await createSave())
+        save = createdSave["save"]
+        currencyConverter = createdSave["rates"]
+        let now = new Date();
         now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
 
         document.getElementById('dateInput').value = now.toISOString().slice(0,16);
-        document.getElementById("currencySelector").value = "CHF"
     })
 
 
@@ -24,6 +26,10 @@
         let currency = save["settings"]["defaultCurrency"]
         if(type == "currency" && document.getElementById("currencySelector").value != "default") {
             currency = document.getElementById("currencySelector").value
+        }
+        if(document.getElementById("currencySelector").value == "crypto") {
+            type = "crypto"
+            currency = document.getElementById("cryptoSelector").value.toUpperCase()
         }
         let transaction = [
             document.getElementById("transactionName").value,
@@ -48,6 +54,19 @@
             history.back()
         }
     }
+
+    let changeType = () => {
+        currentType = document.getElementById("selectType").value
+        if(currentType == "transaction") {
+            let now = new Date();
+            now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
+            currencySelector = "default"
+            setTimeout(() => {
+                document.getElementById('dateInput').value = now.toISOString().slice(0,16);
+            }, 50)
+            
+        }
+    } 
 </script>
 
 <style>
@@ -107,7 +126,7 @@
 
     #transactionAmountDiv {
         display: grid;
-        grid-template-areas: "1 2 3";
+        grid-template-areas: "1 2 3 4 5 6";
         gap: 1.5vw;
     }
 
@@ -135,6 +154,10 @@
             position: fixed;
             left: 1%;
         }
+
+        #transactionAmountDiv {
+            grid-template-areas: "1 2" "3 4" "5 6";
+        }
     }
     
 </style>
@@ -143,7 +166,7 @@
 
     <button on:click={() => history.back()} id="back">←</button>
 
-    <select name="type" id="selectType" on:change={() => currentType = document.getElementById("selectType").value}>
+    <select name="type" id="selectType" on:change={changeType}>
         <option value="transaction">Transaction</option>
         <option value="account">Account</option>
     </select>
@@ -159,12 +182,16 @@
             <option value="-">-</option>
         </select>
         <input type="number" id="amount">
-        <select name="currency" id="currencySelector">
+        <select name="currency" id="currencySelector" on:change={() => currencySelector = document.getElementById("currencySelector").value}>
             <option value="default">Default</option>
+            <option value="crypto">Crypto</option>
             {#each Object.entries(currencyConverter) as currencyRate}
                 <option value="{currencyRate[0]}">{currencyRate[0]}</option>
             {/each}
         </select>
+        {#if currencySelector == "crypto"}
+            <input type="text" id="cryptoSelector" placeholder="Symbol (eg: BTC)">
+        {/if}
     </div>
 
     <h2>Select account :</h2>

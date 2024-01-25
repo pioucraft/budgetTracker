@@ -20,6 +20,7 @@
   },
   "type": "module",
   "dependencies": {
+    "crypto-exchange-rates": "^1.0.4",
     "easy-currencies": "^1.7.0"
   }
 }

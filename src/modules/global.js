@@ -1,4 +1,5 @@
 import { Convert } from "easy-currencies";
+import { getCryptoRates } from "crypto-exchange-rates";
 
 
 var [save, accounts] = ["", ""]
@@ -14,12 +15,12 @@ export async function createSave() {
     if((save ?? [])["accounts"]) {
         accounts = Object.entries(save["accounts"])
 
-        var accountsIndex = 0
-
         
         let bigAccountTotal = 0
         let bigAccountAssets = {}
-        accounts.forEach(account => {
+        for(let accountsIndex =0;accountsIndex<accounts.length;accountsIndex++) {
+
+            let account = accounts[accountsIndex]
             
             let total = 0
             let assets = {}
@@ -32,6 +33,10 @@ export async function createSave() {
                 
                 if(transaction[3] == "currency") {
                     converted = transaction[1]/currencyConverter[transaction[2]]*currencyConverter[save["settings"]["defaultCurrency"]]
+                }
+
+                if(transaction[3] == "crypto") {
+                    converted = (await getCryptoRates([`${transaction[2]}USDT`]))["data"][0]["price"] * currencyConverter[save["settings"]["defaultCurrency"]] * transaction[1]
                 }
 
                 account[1]["transactions"][i].push(converted)
@@ -69,8 +74,7 @@ export async function createSave() {
             accounts[accountsIndex][1]["total"] = total
             
             accounts[accountsIndex][1]["topAssets"] = assets
-            accountsIndex++
-        })
+        }
 
         bigAccountTotal = Number(bigAccountTotal.toFixed(2))
         bigAccountAssets = Object.entries(bigAccountAssets)

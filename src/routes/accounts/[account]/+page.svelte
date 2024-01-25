@@ -15,9 +15,10 @@
     var currentLocation = ""
 
     onMount(async () => {
-        save = (await createSave())["save"]
-        accounts = (await createSave())["accounts"]
-        currencyConverter = (await createSave())["rates"]
+        let createdSave = (await createSave())
+        save = createdSave["save"]
+        accounts = createdSave["accounts"]
+        currencyConverter = createdSave["rates"]
         currentAccount = accounts[Number(data.account)]
         currentLocation = window.location.href
     })

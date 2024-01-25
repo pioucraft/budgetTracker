@@ -23,12 +23,11 @@
     //change the default variables to "normal things"
 
     onMount(async () => {
-        
-        save = (await createSave())["save"]
-        accounts = (await createSave())["accounts"]
-        currencyConverter = (await createSave())["rates"]
-        bigAccount = (await createSave())["bigAccount"]
-        console.log(bigAccount)
+        let createdSave = (await createSave())
+        save = createdSave["save"]
+        accounts = createdSave["accounts"]
+        currencyConverter = createdSave["rates"]
+        bigAccount = createdSave["bigAccount"]
     })
 
     function start() {
