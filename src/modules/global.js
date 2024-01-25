@@ -13,7 +13,7 @@ export async function createSave() {
     save = JSON.parse(localStorage.getItem("save"))
     let bigAccount = {"transactions": []}
     if((save ?? [])["accounts"]) {
-        accounts = Object.entries(save["accounts"])
+        accounts = Object.entries(JSON.parse(JSON.stringify(save["accounts"])))
 
         
         let bigAccountTotal = 0
