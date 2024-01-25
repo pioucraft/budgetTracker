@@ -93,6 +93,14 @@ export async function createSave() {
         bigAccountAssets = Object.entries(bigAccountAssets)
         
         bigAccountAssets = bigAccountAssets.sort((a, b) => a[1][1]-b[1][1]).reverse()
+        bigAccountAssets = bigAccountAssets.sort((a, b) => {
+            if(a[0] == "currency" || a[0] == "crypto" || a[0] == "stock") {
+                return 1
+            }
+            else {
+                return -1
+            }
+        })
         bigAccountAssets.map(x => {
             x[1][1] = Number(x[1][1].toFixed(2))
         })
