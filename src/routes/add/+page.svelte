@@ -31,6 +31,11 @@
             type = "crypto"
             currency = document.getElementById("cryptoSelector").value.toUpperCase()
         }
+        if(document.getElementById("currencySelector").value == "stock") {
+            type = "stock"
+            currency = document.getElementById("cryptoSelector").value
+        }
+
         let transaction = [
             document.getElementById("transactionName").value,
             Number(document.getElementById("amount").value)*Number(document.getElementById("incomeOrExpense").value+"1"),
@@ -185,12 +190,16 @@
         <select name="currency" id="currencySelector" on:change={() => currencySelector = document.getElementById("currencySelector").value}>
             <option value="default">Default</option>
             <option value="crypto">Crypto</option>
+            <option value="stock">Stock</option>
             {#each Object.entries(currencyConverter) as currencyRate}
                 <option value="{currencyRate[0]}">{currencyRate[0]}</option>
             {/each}
         </select>
         {#if currencySelector == "crypto"}
             <input type="text" id="cryptoSelector" placeholder="Symbol (eg: BTC)">
+        {/if}
+        {#if currencySelector == "stock"}
+            <input type="text" id="cryptoSelector" placeholder="Symbol (eg: ^spx, googl)">
         {/if}
     </div>
 

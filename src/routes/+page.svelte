@@ -205,7 +205,13 @@
                 <option value="{currencyRate[0]}">{currencyRate[0]}</option>
                 {/each}
             </select>
-            <p id="temporary-cookiesConsent">By continuing, you accept the use of cookies and local storage. They will be used to store your save data. You also agree that, because this app is in early development, your data could be lost at any moment (except if you know how to recover them). Because the app uses those services' APIs, you are the only responsible person for any problem with Binance, Yahoo! Finance or ExchangeRate-API. Thus, you have to check you respect their ToS when you use the app. Therefore, you will make requests to their servers and you are, like always, the only responsible person for any problem with the data they collect.</p>
+            <p id="temporary-cookiesConsent">THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+                IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+                FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+                AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+                LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+                OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+                SOFTWARE.</p>
             <button id="temporary-start" on:click={start}>Let's start</button>
         </div>
 

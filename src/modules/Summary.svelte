@@ -9,7 +9,7 @@
     }
 </style>
 {#each bigAccount["assets"] as asset}
-    {#if asset[0] == "crypto" || asset[0] == "currency"}
+    {#if asset[0] == "crypto" || asset[0] == "currency" || asset[0] == "stock"}
         <p>{asset[0]} => {asset[1][1]} {save["settings"]["defaultCurrency"]}</p>
     {/if}
 {/each}
@@ -18,7 +18,7 @@
 
 
 {#each bigAccount["assets"] as asset}
-    {#if asset[0] != "crypto" && asset[0] != "currency"}
+    {#if asset[0] != "crypto" && asset[0] != "currency" && asset[0] != "stock"}
         <p>{asset[1][0]} {asset[0]} => {asset[1][1]} {save["settings"]["defaultCurrency"]}</p>
     {/if}
 {/each}

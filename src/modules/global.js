@@ -20,6 +20,7 @@ export async function createSave() {
         let bigAccountAssets = {}
         bigAccountAssets["currency"] = [0, 0]
         bigAccountAssets["crypto"] = [0, 0]
+        bigAccountAssets["stock"] = [0, 0]
         for(let accountsIndex =0;accountsIndex<accounts.length;accountsIndex++) {
 
             let account = accounts[accountsIndex]
@@ -47,6 +48,17 @@ export async function createSave() {
                         converted = (await getCryptoRates([`${transaction[2]}USDT`]))["data"][0]["price"] * currencyConverter[save["settings"]["defaultCurrency"]] * transaction[1]
                         bigAccountAssets["crypto"][0] += 0
                         bigAccountAssets["crypto"][1] += converted
+                    }
+
+                    if(transaction[3] == "stock") {
+                        let stockFetched = (await (await fetch(`https://corsproxy.io/?https://query1.finance.yahoo.com/v8/finance/chart/${transaction[2]}`)).json())["chart"]["result"][0]["meta"]
+                        let stockPrice = stockFetched["regularMarketPrice"]
+                        let stockCurrency = stockFetched["currency"]
+                        
+                        converted = stockPrice*(1/currencyConverter[stockCurrency]*currencyConverter[save["settings"]["defaultCurrency"]])*transaction[1]
+                        console.log(converted)
+                        bigAccountAssets["stock"][0] += 0
+                        bigAccountAssets["stock"][1] += converted
                     }
 
                     account[1]["transactions"][i].push(converted)
