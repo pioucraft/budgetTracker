@@ -41,7 +41,6 @@ export async function createSave() {
                         converted = transaction[1]/currencyConverter[transaction[2]]*currencyConverter[save["settings"]["defaultCurrency"]];
                         bigAccountAssets["currency"][0] += 0;
                         bigAccountAssets["currency"][1] += converted;
-                        console.log(converted)
                     }
 
                     if(transaction[3] == "crypto") {
@@ -51,12 +50,11 @@ export async function createSave() {
                     }
 
                     if(transaction[3] == "stock") {
-                        let stockFetched = (await (await fetch(`https://corsproxy.io/?https://query1.finance.yahoo.com/v8/finance/chart/${transaction[2]}`)).json())["chart"]["result"][0]["meta"]
+                        let stockFetched = (await (await fetch(`https://corsproxy.io/?https://query1.finance.yahoo.com/v8/finance/chart/${transaction[2]}?${(Math.random()).toString()}`)).json())["chart"]["result"][0]["meta"]
                         let stockPrice = stockFetched["regularMarketPrice"]
                         let stockCurrency = stockFetched["currency"]
                         
                         converted = stockPrice*(1/currencyConverter[stockCurrency]*currencyConverter[save["settings"]["defaultCurrency"]])*transaction[1]
-                        console.log(converted)
                         bigAccountAssets["stock"][0] += 0
                         bigAccountAssets["stock"][1] += converted
                     }
