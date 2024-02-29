@@ -66,6 +66,7 @@
     }
 </style>
 
+{#if !save.isDefault}
 <div id="wrapper">
     <button on:click={() => history.back()} id="wrapper-back">←</button>
 
@@ -79,3 +80,7 @@
 
     <button on:click={deleteTransaction} id="deleteTransaction">Delete transaction</button>
 </div>
+
+{:else}
+    <p>Loading...</p>
+{/if}

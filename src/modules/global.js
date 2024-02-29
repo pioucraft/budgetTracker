@@ -5,14 +5,15 @@ import { getCryptoRates } from "crypto-exchange-rates";
 var [save, accounts] = ["", ""]
 
 
-
 export async function createSave() {
-    
-    let currencyConverter = {"USD": 1}
-    currencyConverter = ((await Convert().from("USD").fetch()).rates)
     save = JSON.parse(localStorage.getItem("save"))
+    let currencyConverter = {"USD": 1}
     let bigAccount = {"transactions": []}
     if((save ?? [])["accounts"]) {
+        
+        
+        currencyConverter = ((await Convert().from(save["settings"]["defaultCurrency"]).fetch()).rates)
+
         accounts = Object.entries(JSON.parse(JSON.stringify(save["accounts"])))
 
         
@@ -21,6 +22,9 @@ export async function createSave() {
         bigAccountAssets["currency"] = [0, 0]
         bigAccountAssets["crypto"] = [0, 0]
         bigAccountAssets["stock"] = [0, 0]
+
+        let currencies = await generateCurrenciesList(accounts, currencyConverter, save["settings"]["defaultCurrency"])
+    
         for(let accountsIndex =0;accountsIndex<accounts.length;accountsIndex++) {
 
             let account = accounts[accountsIndex]
@@ -35,29 +39,10 @@ export async function createSave() {
                 if(transaction) {
                     let converted = 0
 
-                    
-                    
-                    if(transaction[3] == "currency") {
-                        converted = transaction[1]/currencyConverter[transaction[2]]*currencyConverter[save["settings"]["defaultCurrency"]];
-                        bigAccountAssets["currency"][0] += 0;
-                        bigAccountAssets["currency"][1] += converted;
-                    }
-
-                    if(transaction[3] == "crypto") {
-                        converted = (await getCryptoRates([`${transaction[2]}USDT`]))["data"][0]["price"] * currencyConverter[save["settings"]["defaultCurrency"]] * transaction[1]
-                        bigAccountAssets["crypto"][0] += 0
-                        bigAccountAssets["crypto"][1] += converted
-                    }
-
-                    if(transaction[3] == "stock") {
-                        let stockFetched = (await (await fetch(`https://corsproxy.io/?https://query1.finance.yahoo.com/v8/finance/chart/${transaction[2]}?${(Math.random()).toString()}`)).json())["chart"]["result"][0]["meta"]
-                        let stockPrice = stockFetched["regularMarketPrice"]
-                        let stockCurrency = stockFetched["currency"]
-                        
-                        converted = stockPrice*(1/currencyConverter[stockCurrency]*currencyConverter[save["settings"]["defaultCurrency"]])*transaction[1]
-                        bigAccountAssets["stock"][0] += 0
-                        bigAccountAssets["stock"][1] += converted
-                    }
+                    converted = transaction[1]*currencies[(`${transaction[3]}/${transaction[2]}`)]
+                    console.log(currencies[(`${transaction[3]}/${transaction[2]}`)])
+                    bigAccountAssets[transaction[3]][0] += 0;
+                    bigAccountAssets[transaction[3]][1] += converted;
 
                     account[1]["transactions"][i].push(converted)
                     account[1]["transactions"][i].push(`/accounts/${accountsIndex}/${i}`)
@@ -71,8 +56,8 @@ export async function createSave() {
                     if(!assets[transaction[2]]) assets[transaction[2]] = [0, 0]
                     if(!bigAccountAssets[transaction[2]]) bigAccountAssets[transaction[2]] = [0, 0]
                     
-                    assets[transaction[2]][0] += transaction[1]
-                    bigAccountAssets[transaction[2]][0] += transaction[1]
+                    assets[transaction[2]][0] += transaction[1]*100_000_000
+                    bigAccountAssets[transaction[2]][0] += transaction[1]*100_000_000
                     
                     assets[transaction[2]][1] += converted
                     bigAccountAssets[transaction[2]][1] += converted
@@ -81,7 +66,8 @@ export async function createSave() {
                 
             }
             total = Number(total.toFixed(2))
-            assets = Object.entries(assets)
+            assets = Object.entries(assets).map(x => [x[0], [x[1][0]/100_000_000, x[1][1]]])
+            console.log(assets)
             
             assets = assets.sort((a, b) => a[1][1]-b[1][1]).reverse()
             assets.map(x => {
@@ -100,7 +86,8 @@ export async function createSave() {
         }
 
         bigAccountTotal = Number(bigAccountTotal.toFixed(2))
-        bigAccountAssets = Object.entries(bigAccountAssets)
+        bigAccountAssets = Object.entries(bigAccountAssets).map(x => [x[0], [x[1][0]/100_000_000, x[1][1]]])
+        console.log(bigAccountAssets)
         
         bigAccountAssets = bigAccountAssets.sort((a, b) => a[1][1]-b[1][1]).reverse()
         for(let i=0;i<bigAccountAssets.length;i++) {
@@ -128,6 +115,34 @@ export async function createSave() {
     return {"save": save ?? undefined, "accounts": accounts ?? undefined, "rates": currencyConverter, "bigAccount": bigAccount ?? undefined}
 }
 
+async function generateCurrenciesList(accounts, currencyConverter, defaultCurrency) {
+    let currencies = {}
+    for(let i=0;i<accounts.length;i++) {
+        let account = accounts[i]
+        for(let j=0;j<account[1]["transactions"].length;j++) {
+            let transaction = account[1]["transactions"][j]
+            if(!currencies.hasOwnProperty(transaction[2])) {
+                console.log(transaction)
+                if(transaction[3] == "currency") {
+                    currencies[(`currency/${transaction[2]}`)] = 1/currencyConverter[transaction[2]]
+                }
+                else if(transaction[3] == "crypto") {
+                    currencies[(`crypto/${transaction[2]}`)] = Number((await getCryptoRates([`${transaction[2]}USDT`]))["data"][0]["price"])/currencyConverter["USD"]
+                }
+                else if(transaction[3] == "stock") {
+                    let stockFetched = (await (await fetch(`https://corsproxy.io/?https://query1.finance.yahoo.com/v8/finance/chart/${transaction[2]}?${(Math.random()).toString()}`)).json())["chart"]["result"][0]["meta"]
+                    let stockPrice = stockFetched["regularMarketPrice"]
+                    let stockCurrency = stockFetched["currency"]
+                    currencies[(`stock/${transaction[2]}`)] = stockPrice/currencyConverter[stockCurrency]
+                }
+                
+            }
+        }
+    }
+    console.log(currencies)
+    return currencies
+}
+
 export var defaultSave = {
     "settings": {
         "defaultCurrency": "USD"
@@ -138,5 +153,6 @@ export var defaultSave = {
                 ["Hello potato", 3, "USD", "currency", 10, 3]
             ]
         }
-    }
+    },
+    "isDefault": true
 }
